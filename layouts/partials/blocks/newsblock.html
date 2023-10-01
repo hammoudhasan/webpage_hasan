@@ -1,0 +1,56 @@
+<!-- layouts/partials/widgets/news.html -->
+<section class="container widget-news">
+    <h1>{{ with .Page.Params.title }}{{ . }}{{ else }}News{{ end }}</h1>
+    {{ $newsEntries := where site.RegularPages "Section" "news" }}
+    <div class="news-entries">
+        <ul class="scrollable-news-list">
+            {{ range $newsEntries }}
+            <li class="news-entry">
+                <div class="news-box">
+{{ if .Params.linkable }}
+    <span class="news-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></span>
+{{ else }}
+    <span class="news-title">{{ .Title | markdownify}}</span>
+{{ end }}
+- <span class="news-date">{{ .Date.Format "January 2006" }}</span>
+                </div>
+            </li>
+            {{ end }}
+        </ul>
+    </div>
+
+    <!-- Adding CSS directly into the widget -->
+    <style>
+        .widget-news {
+            padding: 0px;
+        }
+
+        .scrollable-news-list {
+            max-height: 300px; /* Adjust height as needed */
+            overflow-y: auto;  /* Makes it scrollable */
+            padding-left: 400px; /* Indentation */
+        }
+
+        .news-entry {
+            margin-bottom: 15px; /* Spacing between entries */
+        }
+
+        .news-box {
+            background-color: #ffffff; /* Light grey background */
+            padding: 10px; /* Padding inside the box */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow */
+            transition: box-shadow 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+        }
+
+        .news-box:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+            transform: translateY(-2px); /* Slight lift effect on hover */
+        }
+
+        .news-date {
+            font-weight: bold;
+        }
+    </style>
+</section>
+

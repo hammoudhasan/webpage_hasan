@@ -34,7 +34,7 @@ sections:
   #     background:
   #       gradient_end: '#1976d2'
   #       gradient_start: '#004ba0'
-  #       text_color_light: true
+  #       text_color_flight: true
 
   - block: about.biography
     id: about
@@ -206,6 +206,19 @@ sections:
   #     columns: '2'
   #     view: card
 
+# create hugo news block here
+  - block: newsblock
+    id: news
+    content:
+      title: Recent News
+      filters:
+        folders:
+          - news
+        exclude_featured: true
+    design:
+      columns: '2'
+      view: List
+      
   - block: collection
     id: featured
     content:

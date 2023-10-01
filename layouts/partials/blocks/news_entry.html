@@ -1,0 +1,14 @@
+<!-- layouts/partials/widgets/news.html -->
+<section class="container widget-news">
+  <h1>{{ with .Page.Params.title }}{{ . }}{{ else }}News{{ end }}</h1>
+  {{ $newsEntries := where site.RegularPages "Section" "news" }}
+  <div class="news-entries">
+    {{ range $newsEntries }}
+    <div class="news-entry">
+      <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      <p>{{ .Date.Format "January 2, 2006" }}</p>
+    </div>
+    {{ end }}
+  </div>
+</section>
+

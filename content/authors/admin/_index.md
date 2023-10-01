@@ -21,6 +21,7 @@ organizations:
   - name: King Abdullah University of Science and Technology
     url: kaust.edu.sa/en/
 
+
 # Short bio (displayed in user profile at end of posts)
 bio: Hasan is an Electrical and Computer Engineering Ph.D. student in Image and Video Understanding Lab (IVUL) Group in the Artificial Intelligence Initiative (AII) at King Abdullah University of Science and Technology (KAUST) under the supervision of Professor Bernard Ghanem.
 
@@ -81,5 +82,7 @@ email: 'hasanabedalkader.hammoud@kaust.edu.sa'
 highlight_name: true
 ---
 
-Hasan is an Electrical and Computer Engineering Ph.D. student in Image and Video Understanding Lab (IVUL) Group in the Artificial Intelligence Initiative (AII) at King Abdullah University of Science and Technology (KAUST) under the supervision of Professor Bernard Ghanem.
+Hasan is an Electrical and Computer Engineering Ph.D. student in Image and Video Understanding Lab (IVUL) Group in the Artificial Intelligence Initiative (AII) at King Abdullah University of Science and Technology (KAUST) under the supervision of Professor Bernard Ghanem. 
+
+Currently, Hasan is interning at Torr Vision Group (TVG) at the University of Oxford.
 {style="text-align: justify;"}

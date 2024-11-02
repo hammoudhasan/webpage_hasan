@@ -82,6 +82,11 @@ email: 'hasanabedalkader.hammoud@kaust.edu.sa'
 highlight_name: true
 ---
 
+<div class="profile-photo-wrapper">
+  ![Profile photo](avatar.jpeg)
+  <span class="llama-hover">🦙</span>
+</div>
+
 I am an Electrical and Computer Engineering Ph.D. student in Image and Video Understanding Lab (IVUL) Group in the Artificial Intelligence Initiative (AII) at King Abdullah University of Science and Technology (KAUST) under the supervision of Professor Bernard Ghanem. 
 
 I did an internship at Torr Vision Group (TVG) at the University of Oxford in 2023, and an internship at Samsung Research UK (SRUK) in 2024.

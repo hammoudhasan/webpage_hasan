@@ -45,8 +45,6 @@ education:
 
 # Social/Academic Networking
 # For available icons, see: https://wowchemy.com/docs/getting-started/page-builder/#icons
-#   For an email link, use "fas" icon pack, "envelope" icon, and a link in the
-#   form "mailto:your-email@example.com" or "/#contact" for contact widget.
 social:
   - icon: envelope
     icon_pack: fas
@@ -57,7 +55,7 @@ social:
     label: Follow me on Twitter
     display:
       header: true
-  - icon: graduation-cap # Alternatively, use `google-scholar` icon from `ai` icon pack
+  - icon: graduation-cap
     icon_pack: fas
     link: https://scholar.google.com/citations?user=Plf1JSIAAAAJ
   - icon: github
@@ -66,9 +64,6 @@ social:
   - icon: linkedin
     icon_pack: fab
     link: https://www.linkedin.com/in/hasan-abed-al-kader-hammoud-56392a147/
-  # Link to a PDF of your resume/CV.
-  # To use: copy your resume to `static/uploads/resume.pdf`, enable `ai` icons in `params.yaml`,
-  # and uncomment the lines below.
   - icon: cv
     icon_pack: ai
     link: uploads/resume.pdf
@@ -80,11 +75,13 @@ email: 'hasanabedalkader.hammoud@kaust.edu.sa'
 highlight_name: true
 ---
 
+<!-- Profile photo with hover effect -->
 <div class="profile-photo-wrapper">
     <img src="/authors/admin/avatar.jpeg" alt="Profile photo" class="profile-photo"/>
     <span class="llama-hover">🦙</span>
 </div>
 
+<!-- Biography section -->
 I am an Electrical and Computer Engineering Ph.D. student in Image and Video Understanding Lab (IVUL) Group in the Artificial Intelligence Initiative (AII) at King Abdullah University of Science and Technology (KAUST) under the supervision of Professor Bernard Ghanem.
 
 I did an internship at Torr Vision Group (TVG) at the University of Oxford in 2023, and an internship at Samsung Research UK (SRUK) in 2024.

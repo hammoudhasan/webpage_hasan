@@ -1,56 +1,68 @@
 <!-- layouts/partials/widgets/news.html -->
-<section class="container widget-news">
-    <h1>{{ with .Page.Params.title }}{{ . }}{{ else }}News{{ end }}</h1>
+<section class="widget-news container">
+    <h1>{{ .Page.Params.title | default "News" }}</h1>
     {{ $newsEntries := where site.RegularPages "Section" "news" }}
     <div class="news-entries">
-        <ul class="scrollable-news-list">
-            {{ range $newsEntries }}
-            <li class="news-entry">
-                <div class="news-box">
-{{ if .Params.linkable }}
-    <span class="news-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></span>
-{{ else }}
-    <span class="news-title">{{ .Title | markdownify}}</span>
-{{ end }}
-- <span class="news-date">{{ .Date.Format "January 2006" }}</span>
-                </div>
-            </li>
-            {{ end }}
-        </ul>
+        {{ range $newsEntries }}
+        <article class="news-entry">
+            <div class="news-box">
+                {{ if .Params.linkable }}
+                    <h2 class="news-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+                {{ else }}
+                    <h2 class="news-title">{{ .Title | markdownify }}</h2>
+                {{ end }}
+                <p class="news-date">{{ .Date.Format "January 2006" }}</p>
+            </div>
+        </article>
+        {{ end }}
     </div>
 
-    <!-- Adding CSS directly into the widget -->
+    <!-- Updated CSS -->
     <style>
         .widget-news {
-            padding: 0px;
+            padding: 20px;
         }
 
-        .scrollable-news-list {
-            max-height: 300px; /* Adjust height as needed */
-            overflow-y: auto;  /* Makes it scrollable */
-            padding-left: 400px; /* Indentation */
+        .news-entries {
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .news-entry {
-            margin-bottom: 15px; /* Spacing between entries */
+            margin-bottom: 15px;
         }
 
         .news-box {
-            background-color: #ffffff; /* Light grey background */
-            padding: 10px; /* Padding inside the box */
-            border-radius: 10px; /* Rounded corners */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow */
-            transition: box-shadow 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s, transform 0.3s;
         }
 
         .news-box:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
-            transform: translateY(-2px); /* Slight lift effect on hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .news-title {
+            margin: 0 0 10px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .news-title a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .news-title a:hover {
+            text-decoration: underline;
         }
 
         .news-date {
-            font-weight: bold;
+            font-size: 0.9em;
+            color: #777;
         }
     </style>
 </section>
-

@@ -6,7 +6,7 @@ title: "Randomized Asymmetric Chain of LoRA: The First Meaningful Theoretical Fr
 authors:
 - Grigory Malinovsky
 - Umberto Michieli
-- Hasan Abed Al Kader Hammoud
+- admin
 - Taha Ceritli
 - Hayder Elesedy
 - Mete Ozay
@@ -15,7 +15,7 @@ authors:
 author_notes:
 - ""
 - ""
-- "Equal contribution"
+- ""
 - ""
 - ""
 - ""

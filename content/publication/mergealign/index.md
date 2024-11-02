@@ -4,7 +4,7 @@ title: "Model Merging and Safety Alignment: One Bad Model Spoils the Bunch"
 
 # Authors
 authors:
-- Hasan Abed Al Kader Hammoud
+- admin
 - Umberto Michieli
 - Fabio Pizzati
 - Philip Torr
@@ -13,7 +13,7 @@ authors:
 - Mete Ozay
 
 author_notes:
-- "Equal contribution"
+- ""
 - ""
 - ""
 - ""

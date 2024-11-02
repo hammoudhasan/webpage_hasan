@@ -7,7 +7,7 @@ authors:
 - Yibo Yang
 - Xiaojie Li
 - Motasem Alfarra
-- Hasan Hammoud
+- admin
 - Adel Bibi
 - Philip Torr
 - Bernard Ghanem
@@ -16,7 +16,7 @@ author_notes:
 - ""
 - ""
 - ""
-- "Equal contribution"
+- ""
 - ""
 - ""
 - ""

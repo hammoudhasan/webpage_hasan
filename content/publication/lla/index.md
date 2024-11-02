@@ -4,14 +4,14 @@ title: "Look Listen and Attack: Backdoor Attacks Against Video Action Recognitio
 
 # Authors
 authors:
-- Hasan Abed Al Kader Hammoud
+- admin
 - Shuming Liu
 - Mohammed Alkhrashi
 - Fahad Albalawi
 - Bernard Ghanem
 
 author_notes:
-- "Equal contribution"
+- ""
 - ""
 - ""
 - ""

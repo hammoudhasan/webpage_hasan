@@ -4,7 +4,7 @@ title: "On Pretraining Data Diversity for Self-Supervised Learning"
 
 # Authors
 authors:
-- Hasan Abed Al Kader Hammoud
+- admin
 - Tuhin Das
 - Fabio Pizzati
 - Philip Torr
@@ -13,8 +13,8 @@ authors:
 
 author_notes:
 - "Equal contribution"
-- ""
-- ""
+- "Equal contribution"
+- "Equal contribution"
 - ""
 - ""
 - ""

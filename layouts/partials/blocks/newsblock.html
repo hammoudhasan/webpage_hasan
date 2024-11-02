@@ -1,6 +1,14 @@
 <!-- layouts/partials/widgets/news.html -->
 <section class="widget-news container">
     <h1>{{ .Page.Params.title | default "News" }}</h1>
+    
+    <!-- Apple Icon Section -->
+    <div class="funny-icon">
+        <i class="fas fa-apple"></i>
+        <span class="funny-text">Don't click me</span>
+    </div>
+    <!-- End of Apple Icon Section -->
+    
     {{ $newsEntries := where site.RegularPages "Section" "news" }}
     <div class="news-entries">
         {{ range $newsEntries }}
@@ -17,10 +25,11 @@
         {{ end }}
     </div>
 
-    <!-- Updated CSS -->
+    <!-- Enhanced CSS -->
     <style>
-        /* Importing a modern Google Font */
+        /* Importing Fonts and Icons */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
         .widget-news {
             padding: 20px;
@@ -28,6 +37,36 @@
             color: #333;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             border-radius: 12px;
+        }
+
+        /* Styling the Funny Icon Section */
+        .funny-icon {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .funny-icon i {
+            font-size: 2em;
+            color: #888;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .funny-icon .funny-text {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .funny-icon:hover i {
+            color: #ff6f61;
+            transform: rotate(20deg);
+        }
+
+        .funny-icon:hover .funny-text {
+            color: #ff6f61;
         }
 
         .news-entries {
@@ -142,4 +181,15 @@
             }
         }
     </style>
+
+    <!-- JavaScript for the Funny Interaction -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const funnyIcon = document.querySelector('.funny-icon');
+            funnyIcon.addEventListener('click', function() {
+                // Display a funny message
+                alert("🍎 Oops! I told you not to click me! Now you're craving apples, aren't you?");
+            });
+        });
+    </script>
 </section>

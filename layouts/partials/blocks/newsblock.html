@@ -17,7 +17,7 @@
         {{ end }}
     </div>
 
-    <!-- Enhanced CSS -->
+    <!-- Updated CSS -->
     <style>
         /* Importing a modern Google Font */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
@@ -26,11 +26,13 @@
             padding: 20px;
             font-family: 'Montserrat', sans-serif;
             color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
         }
 
         .news-entries {
-            max-height: 300px;
-            overflow-y: auto;
+            /* Removed max-height to allow the section to expand */
+            overflow-y: visible; /* Changed from 'auto' to 'visible' */
             scrollbar-width: thin;
             scrollbar-color: #ccc transparent;
         }
@@ -93,26 +95,6 @@
         .news-title a {
             text-decoration: none;
             color: inherit;
-        }
-
-        .news-title a:hover {
-            color: #ff6f61; /* Accent color on hover */
-        }
-
-        .news-date {
-            font-size: 0.85em;
-            color: #888;
-        }
-
-        /* Adding icons to the titles */
-        .news-title::before {
-            content: '📰';
-            margin-right: 8px;
-            font-size: 1em;
-        }
-
-        /* Fancy hover underline effect */
-        .news-title a {
             position: relative;
             display: inline-block;
             overflow: hidden;
@@ -130,8 +112,23 @@
             transition: transform 0.3s ease;
         }
 
+        .news-title a:hover {
+            color: #ff6f61;
+        }
+
         .news-title a:hover::after {
             transform: translateX(0);
+        }
+
+        .news-title::before {
+            content: '📰';
+            margin-right: 8px;
+            font-size: 1em;
+        }
+
+        .news-date {
+            font-size: 0.85em;
+            color: #888;
         }
 
         /* Responsive design adjustments */
@@ -143,12 +140,6 @@
             .news-title {
                 font-size: 1em;
             }
-        }
-
-        /* Adding a subtle gradient background to the section */
-        .widget-news {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 12px;
         }
     </style>
 </section>

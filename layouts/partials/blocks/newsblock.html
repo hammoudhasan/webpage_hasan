@@ -1,216 +1,195 @@
-<!-- Place this in the <head> section of your HTML document -->
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-eN5kX6rBbaxcLghwrLBBUeX+Kl+FOK4EnRll3/qCZkh7oHVx5g+57u+zSbsJQXV4"
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-  
-  <!-- layouts/partials/widgets/news.html -->
-  <section class="widget-news container">
+<!-- layouts/partials/widgets/news.html -->
+<section class="widget-news container">
     <h1>{{ .Page.Params.title | default "News" }}</h1>
-  
-    <!-- Apple Icon Section -->
+
+    <!-- Apple Emoji Section -->
     <div class="funny-icon">
-      <i class="fas fa-apple-whole"></i>
-      <span class="funny-text">Don't click me</span>
+        <span class="funny-emoji">🍎</span>
+        <span class="funny-text">Don't click me</span>
     </div>
-    <!-- End of Apple Icon Section -->
-  
+    <!-- End of Apple Emoji Section -->
+
     {{ $newsEntries := where site.RegularPages "Section" "news" }}
     <div class="news-entries">
-      {{ range $newsEntries }}
-      <article class="news-entry">
-        <div class="news-box">
-          {{ if .Params.linkable }}
-          <h2 class="news-title">
-            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-          </h2>
-          {{ else }}
-          <h2 class="news-title">{{ .Title | markdownify }}</h2>
-          {{ end }}
-          <p class="news-date">{{ .Date.Format "January 2006" }}</p>
-        </div>
-      </article>
-      {{ end }}
+        {{ range $newsEntries }}
+        <article class="news-entry">
+            <div class="news-box">
+                {{ if .Params.linkable }}
+                    <h2 class="news-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+                {{ else }}
+                    <h2 class="news-title">{{ .Title | markdownify }}</h2>
+                {{ end }}
+                <p class="news-date">{{ .Date.Format "January 2006" }}</p>
+            </div>
+        </article>
+        {{ end }}
     </div>
-  
+
     <!-- Enhanced CSS -->
     <style>
-      /* Importing the Google Font */
-      @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap");
-  
-      .widget-news {
-        padding: 20px;
-        font-family: "Montserrat", sans-serif;
-        color: #333;
-        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        border-radius: 12px;
-      }
-  
-      /* Styling the Funny Icon Section */
-      .funny-icon {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        cursor: pointer;
-        transition: color 0.3s ease;
-      }
-  
-      .funny-icon i {
-        font-size: 2em;
-        color: #888;
-        margin-right: 10px;
-        transition: transform 0.3s ease;
-      }
-  
-      .funny-icon .funny-text {
-        font-size: 1.2em;
-        color: #555;
-      }
-  
-      .funny-icon:hover i {
-        color: #ff6f61;
-        transform: rotate(20deg);
-      }
-  
-      .funny-icon:hover .funny-text {
-        color: #ff6f61;
-      }
-  
-      /* Rest of your styles... */
-      /* (Include all the previous CSS for .news-entries, .news-box, etc.) */
-  
-      .news-entries {
-        max-height: 50vh; /* Occupies half of the viewport height */
-        overflow-y: auto;
-        scrollbar-width: thin;
-        scrollbar-color: #ccc transparent;
-      }
-  
-      .news-entries::-webkit-scrollbar {
-        width: 6px;
-      }
-  
-      .news-entries::-webkit-scrollbar-thumb {
-        background-color: #ccc;
-        border-radius: 3px;
-      }
-  
-      .news-entry {
-        margin-bottom: 15px;
-      }
-  
-      .news-box {
-        background-color: #ffffff;
-        padding: 15px;
-        border-radius: 10px;
-        border: 1px solid #e0e0e0;
-        transition: all 0.3s ease;
-        position: relative;
-        overflow: hidden;
-      }
-  
-      .news-box::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-          circle at center,
-          transparent 0%,
-          transparent 50%,
-          rgba(0, 0, 0, 0.05) 50%
-        );
-        transform: rotate(45deg);
-        transition: opacity 0.3s ease;
-        opacity: 0;
-      }
-  
-      .news-box:hover::before {
-        opacity: 1;
-      }
-  
-      .news-box:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        transform: translateY(-5px);
-        border-color: transparent;
-      }
-  
-      .news-title {
-        margin: 0 0 8px;
-        font-size: 1.2em;
-        font-weight: 500;
-        color: #222;
-        display: flex;
-        align-items: center;
-      }
-  
-      .news-title a {
-        text-decoration: none;
-        color: inherit;
-        position: relative;
-        display: inline-block;
-        overflow: hidden;
-      }
-  
-      .news-title a::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background-color: #ff6f61;
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-      }
-  
-      .news-title a:hover {
-        color: #ff6f61;
-      }
-  
-      .news-title a:hover::after {
-        transform: translateX(0);
-      }
-  
-      .news-title::before {
-        content: "📰";
-        margin-right: 8px;
-        font-size: 1em;
-      }
-  
-      .news-date {
-        font-size: 0.85em;
-        color: #888;
-      }
-  
-      /* Responsive design adjustments */
-      @media (max-width: 768px) {
+        /* Importing the Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+        .widget-news {
+            padding: 20px;
+            font-family: 'Montserrat', sans-serif;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+        }
+
+        /* Styling the Funny Emoji Section */
+        .funny-icon {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .funny-emoji {
+            font-size: 2em;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .funny-text {
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .funny-icon:hover .funny-emoji {
+            transform: rotate(20deg);
+        }
+
+        .funny-icon:hover .funny-text {
+            color: #ff6f61;
+        }
+
+        /* Rest of your styles... */
+        /* (Include all the previous CSS for .news-entries, .news-box, etc.) */
+
+        .news-entries {
+            max-height: 50vh; /* Occupies half of the viewport height */
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #ccc transparent;
+        }
+
+        .news-entries::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .news-entries::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 3px;
+        }
+
+        .news-entry {
+            margin-bottom: 15px;
+        }
+
         .news-box {
-          padding: 12px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-  
+
+        .news-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.05) 50%);
+            transform: rotate(45deg);
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .news-box:hover::before {
+            opacity: 1;
+        }
+
+        .news-box:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            border-color: transparent;
+        }
+
         .news-title {
-          font-size: 1em;
+            margin: 0 0 8px;
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #222;
+            display: flex;
+            align-items: center;
         }
-      }
+
+        .news-title a {
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        .news-title a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ff6f61;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .news-title a:hover {
+            color: #ff6f61;
+        }
+
+        .news-title a:hover::after {
+            transform: translateX(0);
+        }
+
+        .news-title::before {
+            content: '📰';
+            margin-right: 8px;
+            font-size: 1em;
+        }
+
+        .news-date {
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        /* Responsive design adjustments */
+        @media (max-width: 768px) {
+            .news-box {
+                padding: 12px;
+            }
+
+            .news-title {
+                font-size: 1em;
+            }
+        }
     </style>
-  
+
     <!-- JavaScript for the Funny Interaction -->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const funnyIcon = document.querySelector(".funny-icon");
-        funnyIcon.addEventListener("click", function () {
-          // Display a funny message
-          alert(
-            "🍎 Oops! I told you not to click me! Now you're craving apples, aren't you?"
-          );
+        document.addEventListener('DOMContentLoaded', function() {
+            const funnyIcon = document.querySelector('.funny-icon');
+            funnyIcon.addEventListener('click', function() {
+                // Display a funny message
+                alert("🍎 Oops! I told you not to click me! Now you're craving apples, aren't you?");
+            });
         });
-      });
     </script>
-  </section>
-  
+</section>

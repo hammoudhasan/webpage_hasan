@@ -21,10 +21,8 @@ organizations:
   - name: King Abdullah University of Science and Technology
     url: kaust.edu.sa/en/
 
-
 # Short bio (displayed in user profile at end of posts)
 bio: Hasan is an Electrical and Computer Engineering Ph.D. student in Image and Video Understanding Lab (IVUL) Group in the Artificial Intelligence Initiative (AII) at King Abdullah University of Science and Technology (KAUST) under the supervision of Professor Bernard Ghanem.
-
 
 # Interests to show in About widget
 interests:
@@ -83,11 +81,11 @@ highlight_name: true
 ---
 
 <div class="profile-photo-wrapper">
-  ![Profile photo](avatar.jpeg)
-  <span class="llama-hover">🦙</span>
+    <img src="/authors/admin/avatar.jpeg" alt="Profile photo" class="profile-photo"/>
+    <span class="llama-hover">🦙</span>
 </div>
 
-I am an Electrical and Computer Engineering Ph.D. student in Image and Video Understanding Lab (IVUL) Group in the Artificial Intelligence Initiative (AII) at King Abdullah University of Science and Technology (KAUST) under the supervision of Professor Bernard Ghanem. 
+I am an Electrical and Computer Engineering Ph.D. student in Image and Video Understanding Lab (IVUL) Group in the Artificial Intelligence Initiative (AII) at King Abdullah University of Science and Technology (KAUST) under the supervision of Professor Bernard Ghanem.
 
 I did an internship at Torr Vision Group (TVG) at the University of Oxford in 2023, and an internship at Samsung Research UK (SRUK) in 2024.
 

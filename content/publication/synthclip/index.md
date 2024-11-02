@@ -1,5 +1,4 @@
 ---
-
 title: "SynthCLIP: Are We Ready for a Fully Synthetic CLIP Training?"
 
 # Authors
@@ -13,7 +12,7 @@ authors:
 
 author_notes:
 - "Equal contribution"
-- ""
+- "Equal contribution"
 - ""
 - ""
 - ""
@@ -26,7 +25,7 @@ doi: ""
 publishDate: "2024-02-05T00:00:00Z"
 
 # Publication type.
-publication_types: ["3"]
+publication_types: ["1"]
 
 # Publication name and optional abbreviated publication name.
 publication: Preprint

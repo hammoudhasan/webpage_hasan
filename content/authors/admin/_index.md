@@ -28,9 +28,9 @@ bio: Hasan is an Electrical and Computer Engineering Ph.D. student in Image and 
 
 # Interests to show in About widget
 interests:
-  - Artificial Intelligence
-  - Computer Vision
-  - Machine Learning
+  - Large Language Models
+  - Multimodal Learning
+  - Safety Alignment
 
 # Education to show in About widget
 education:

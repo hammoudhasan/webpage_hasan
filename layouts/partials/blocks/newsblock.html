@@ -1,195 +1,484 @@
-<!-- layouts/partials/widgets/news.html -->
-<section class="widget-news container">
-    <h1>{{ .Page.Params.title | default "News" }}</h1>
+{{/* News Block Component */}}
+{{ $st := .page_type | default "block" }}
+<section id="{{ .block.id | default .id | default (replace (replace .block.title " " "-") ":" "") | lower }}" class="home-section wg-{{ .block.type | default "newsblock" }} dark-root">
+  <div class="home-section-bg {{ if .block.design.background.color }}bg-{{ .block.design.background.color }}{{ end }}"></div>
+  <div class="container">
 
-    <!-- Apple Emoji Section -->
-    <div class="funny-icon">
-        <span class="funny-emoji">🧙🏻</span>
-        <span class="funny-text">Don't click me</span>
-    </div>
-    <!-- End of Apple Emoji Section -->
+    {{ with .block.content.title }}
+      <div class="row">
+        <div class="col-12 col-lg-4 section-heading">
+          <h1>{{ . | markdownify | emojify }}</h1>
+          {{ with $.block.content.subtitle }}<p>{{ . | markdownify | emojify }}</p>{{ end }}
+        </div>
+        <div class="col-12 col-lg-8"></div>
+      </div>
+    {{ end }}
 
-    {{ $newsEntries := where site.RegularPages "Section" "news" }}
-    <div class="news-entries">
-        {{ range $newsEntries }}
-        <article class="news-entry">
-            <div class="news-box">
-                {{ if .Params.linkable }}
-                    <h2 class="news-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
-                {{ else }}
-                    <h2 class="news-title">{{ .Title | markdownify }}</h2>
-                {{ end }}
-                <p class="news-date">{{ .Date.Format "January 2006" }}</p>
+    <div class="row">
+      <div class="col-12">
+        <div class="news-container">
+          
+          <!-- Easter Egg Section -->
+          <div class="easter-egg-section">
+            <div class="easter-egg" onclick="triggerEasterEgg()">
+              <span class="egg-icon">🧙🏻</span>
+              <span class="egg-text">Don't click me</span>
             </div>
-        </article>
-        {{ end }}
+          </div>
+
+          <!-- News Items -->
+          {{ $news_entries := where site.RegularPages "Section" "news" }}
+          {{ $news_entries = $news_entries | first 10 }}
+          
+          <div class="news-grid">
+            {{ range $news_entries }}
+            <article class="news-card">
+              <div class="news-content">
+                <div class="news-header">
+                  <span class="news-icon">📰</span>
+                  <time class="news-date" datetime="{{ .Date.Format "2006-01-02" }}">
+                    {{ .Date.Format "Jan 2006" }}
+                  </time>
+                </div>
+                
+                <div class="news-body">
+                  {{ if .Params.linkable }}
+                    <h3 class="news-title">
+                      <a href="{{ .RelPermalink }}" class="news-link">
+                        {{ .Title | markdownify }}
+                      </a>
+                    </h3>
+                  {{ else }}
+                    <h3 class="news-title">{{ .Title | markdownify }}</h3>
+                  {{ end }}
+                </div>
+              </div>
+            </article>
+            {{ end }}
+          </div>
+
+          {{ if gt (len $news_entries) 10 }}
+          <div class="news-footer">
+            <a href="/news/" class="btn btn-outline-primary">View All News</a>
+          </div>
+          {{ end }}
+
+        </div>
+      </div>
     </div>
 
-    <!-- Enhanced CSS -->
-    <style>
-        /* Importing the Google Font */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
-
-        .widget-news {
-            padding: 20px;
-            font-family: 'Montserrat', sans-serif;
-            color: #333;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-radius: 12px;
-        }
-
-        /* Styling the Funny Emoji Section */
-        .funny-icon {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .funny-emoji {
-            font-size: 2em;
-            margin-right: 10px;
-            transition: transform 0.3s ease;
-        }
-
-        .funny-text {
-            font-size: 1.2em;
-            color: #555;
-        }
-
-        .funny-icon:hover .funny-emoji {
-            transform: rotate(20deg);
-        }
-
-        .funny-icon:hover .funny-text {
-            color: #ff6f61;
-        }
-
-        /* Rest of your styles... */
-        /* (Include all the previous CSS for .news-entries, .news-box, etc.) */
-
-        .news-entries {
-            max-height: 50vh; /* Occupies half of the viewport height */
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #ccc transparent;
-        }
-
-        .news-entries::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .news-entries::-webkit-scrollbar-thumb {
-            background-color: #ccc;
-            border-radius: 3px;
-        }
-
-        .news-entry {
-            margin-bottom: 15px;
-        }
-
-        .news-box {
-            background-color: #ffffff;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #e0e0e0;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .news-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.05) 50%);
-            transform: rotate(45deg);
-            transition: opacity 0.3s ease;
-            opacity: 0;
-        }
-
-        .news-box:hover::before {
-            opacity: 1;
-        }
-
-        .news-box:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            transform: translateY(-5px);
-            border-color: transparent;
-        }
-
-        .news-title {
-            margin: 0 0 8px;
-            font-size: 1.2em;
-            font-weight: 500;
-            color: #222;
-            display: flex;
-            align-items: center;
-        }
-
-        .news-title a {
-            text-decoration: none;
-            color: inherit;
-            position: relative;
-            display: inline-block;
-            overflow: hidden;
-        }
-
-        .news-title a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: #ff6f61;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-
-        .news-title a:hover {
-            color: #ff6f61;
-        }
-
-        .news-title a:hover::after {
-            transform: translateX(0);
-        }
-
-        .news-title::before {
-            content: '📰';
-            margin-right: 8px;
-            font-size: 1em;
-        }
-
-        .news-date {
-            font-size: 0.85em;
-            color: #888;
-        }
-
-        /* Responsive design adjustments */
-        @media (max-width: 768px) {
-            .news-box {
-                padding: 12px;
-            }
-
-            .news-title {
-                font-size: 1em;
-            }
-        }
-    </style>
-
-    <!-- JavaScript for the Funny Interaction -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const funnyIcon = document.querySelector('.funny-icon');
-            funnyIcon.addEventListener('click', function() {
-                // Display a funny message
-                alert("Aha! I knew you couldn’t resist! 🎩✨");
-            });
-        });
-    </script>
+  </div>
 </section>
+
+<style>
+/* News Block Styles - Modern, Responsive, Dark Mode Compatible */
+.wg-newsblock {
+  padding: 3rem 0;
+}
+
+.news-container {
+  position: relative;
+  max-width: 100%;
+}
+
+/* Easter Egg Styling */
+.easter-egg-section {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.easter-egg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.1), 
+    rgba(219, 39, 119, 0.1));
+  border: 2px solid transparent;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+.easter-egg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent);
+  transition: left 0.5s ease;
+}
+
+.easter-egg:hover::before {
+  left: 100%;
+}
+
+.easter-egg:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.2), 
+    rgba(219, 39, 119, 0.2));
+  border-color: rgba(99, 102, 241, 0.3);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.egg-icon {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.easter-egg:hover .egg-icon {
+  transform: rotate(20deg);
+}
+
+.egg-text {
+  font-weight: 500;
+  color: var(--text-color, #374151);
+  transition: color 0.3s ease;
+}
+
+/* News Grid */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* News Card */
+.news-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.news-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    #6366f1, 
+    #8b5cf6, 
+    #ec4899);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.news-card:hover::before {
+  transform: scaleX(1);
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent-color, #6366f1);
+}
+
+/* News Header */
+.news-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.news-icon {
+  font-size: 1.25rem;
+  opacity: 0.8;
+}
+
+.news-date {
+  font-size: 0.875rem;
+  color: var(--muted-color, #6b7280);
+  font-weight: 500;
+  padding: 0.25rem 0.75rem;
+  background: var(--muted-bg, #f3f4f6);
+  border-radius: 20px;
+}
+
+/* News Body */
+.news-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--heading-color, #111827);
+}
+
+.news-link {
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.news-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #6366f1, #ec4899);
+  transition: width 0.3s ease;
+}
+
+.news-link:hover {
+  color: var(--accent-color, #6366f1);
+}
+
+.news-link:hover::after {
+  width: 100%;
+}
+
+/* Footer */
+.news-footer {
+  text-align: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .news-card,
+.dark .news-card {
+  --card-bg: #1f2937;
+  --border-color: #374151;
+  --text-color: #f9fafb;
+  --heading-color: #ffffff;
+  --muted-color: #9ca3af;
+  --muted-bg: #374151;
+  --accent-color: #818cf8;
+}
+
+[data-theme="dark"] .egg-text,
+.dark .egg-text {
+  color: #f9fafb;
+}
+
+[data-theme="dark"] .easter-egg,
+.dark .easter-egg {
+  background: linear-gradient(135deg, 
+    rgba(129, 140, 248, 0.15), 
+    rgba(236, 72, 153, 0.15));
+}
+
+[data-theme="dark"] .easter-egg:hover,
+.dark .easter-egg:hover {
+  background: linear-gradient(135deg, 
+    rgba(129, 140, 248, 0.25), 
+    rgba(236, 72, 153, 0.25));
+  border-color: rgba(129, 140, 248, 0.4);
+}
+
+[data-theme="dark"] .news-footer,
+.dark .news-footer {
+  border-color: #374151;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wg-newsblock {
+    padding: 2rem 0;
+  }
+  
+  .news-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .news-card {
+    padding: 1rem;
+  }
+  
+  .easter-egg {
+    padding: 0.5rem 1rem;
+  }
+  
+  .egg-icon {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .news-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .news-title {
+    font-size: 1rem;
+  }
+}
+
+/* Smooth scrolling and animations */
+@media (prefers-reduced-motion: no-preference) {
+  .news-card {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .news-card:nth-child(2) { animation-delay: 0.1s; }
+  .news-card:nth-child(3) { animation-delay: 0.2s; }
+  .news-card:nth-child(4) { animation-delay: 0.3s; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<script>
+function triggerEasterEgg() {
+  // Create a more engaging easter egg
+  const messages = [
+    "🎩✨ Abracadabra! You found the magic button!",
+    "🧙🏻 The wizard approves of your curiosity!",
+    "⭐ You've unlocked... absolutely nothing! But thanks for clicking!",
+    "🎪 Welcome to the digital circus of curiosity!",
+    "🔮 The crystal ball says... you should probably get back to reading!"
+  ];
+  
+  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+  
+  // Create a custom modal instead of alert
+  const modal = document.createElement('div');
+  modal.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+  `;
+  
+  const content = document.createElement('div');
+  content.style.cssText = `
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 400px;
+    margin: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: modalBounce 0.5s ease-out;
+  `;
+  
+  // Add animation keyframes
+  if (!document.querySelector('#modal-animations')) {
+    const style = document.createElement('style');
+    style.id = 'modal-animations';
+    style.textContent = `
+      @keyframes modalBounce {
+        0% { opacity: 0; transform: scale(0.3) translateY(-50px); }
+        50% { transform: scale(1.05); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  content.innerHTML = `
+    <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
+    <p style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #333;">${randomMessage}</p>
+    <button onclick="this.closest('.modal-overlay').remove()" 
+            style="background: linear-gradient(135deg, #6366f1, #ec4899); 
+                   color: white; 
+                   border: none; 
+                   padding: 0.75rem 2rem; 
+                   border-radius: 25px; 
+                   font-weight: 600; 
+                   cursor: pointer;
+                   transition: transform 0.2s ease;">
+      ✨ Amazing! ✨
+    </button>
+  `;
+  
+  modal.className = 'modal-overlay';
+  modal.appendChild(content);
+  document.body.appendChild(modal);
+  
+  // Add button hover effect
+  const button = content.querySelector('button');
+  button.addEventListener('mouseenter', () => {
+    button.style.transform = 'scale(1.05)';
+  });
+  button.addEventListener('mouseleave', () => {
+    button.style.transform = 'scale(1)';
+  });
+  
+  // Close on background click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+}
+
+// Add some sparkle effects
+document.addEventListener('DOMContentLoaded', function() {
+  const easterEgg = document.querySelector('.easter-egg');
+  if (easterEgg) {
+    easterEgg.addEventListener('mouseenter', function() {
+      // Add subtle sparkle effect
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          const sparkle = document.createElement('div');
+          sparkle.textContent = '✨';
+          sparkle.style.cssText = `
+            position: absolute;
+            font-size: 1rem;
+            pointer-events: none;
+            animation: sparkleFloat 1s ease-out forwards;
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+          `;
+          
+          if (!document.querySelector('#sparkle-animations')) {
+            const style = document.createElement('style');
+            style.id = 'sparkle-animations';
+            style.textContent = `
+              @keyframes sparkleFloat {
+                0% { opacity: 1; transform: translateY(0) scale(0.5); }
+                100% { opacity: 0; transform: translateY(-30px) scale(1); }
+              }
+            `;
+            document.head.appendChild(style);
+          }
+          
+          this.appendChild(sparkle);
+          setTimeout(() => sparkle.remove(), 1000);
+        }, i * 200);
+      }
+    });
+  }
+});
+</script>

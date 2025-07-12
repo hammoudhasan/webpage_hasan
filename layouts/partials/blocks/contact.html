@@ -1,0 +1,714 @@
+{{/* Enhanced Contact Block */}}
+<section id="{{ .block.id | default "contact" }}" class="home-section wg-contact contact-enhanced">
+  <div class="home-section-bg {{ if .block.design.background.color }}bg-{{ .block.design.background.color }}{{ end }}"></div>
+  <div class="container">
+
+    {{ with .block.content.title }}
+      <div class="row">
+        <div class="col-12 section-heading">
+          <h1>{{ . | markdownify | emojify }}</h1>
+          {{ with $.block.content.subtitle }}<p>{{ . | markdownify | emojify }}</p>{{ end }}
+        </div>
+      </div>
+    {{ end }}
+
+    {{ with .block.content.text }}
+      <div class="row">
+        <div class="col-12">
+          <div class="contact-intro">
+            {{ . | markdownify | emojify }}
+          </div>
+        </div>
+      </div>
+    {{ end }}
+
+    <div class="row">
+      <div class="col-12">
+        <div class="contact-container">
+          
+          <!-- Contact Information Cards -->
+          <div class="contact-info">
+            
+            <!-- Email Card -->
+            {{ with .block.content.email }}
+              <div class="contact-card email-card">
+                <div class="card-icon">
+                  <i class="fas fa-envelope"></i>
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Email</h3>
+                  <p class="card-desc">Send me a message</p>
+                  <a href="mailto:{{ . }}" class="contact-link">
+                    {{ . }}
+                  </a>
+                </div>
+                <div class="card-action">
+                  <a href="mailto:{{ . }}" class="action-btn">
+                    <i class="fas fa-paper-plane"></i>
+                  </a>
+                </div>
+              </div>
+            {{ end }}
+
+            <!-- Phone Card -->
+            {{ with .block.content.phone }}
+              <div class="contact-card phone-card">
+                <div class="card-icon">
+                  <i class="fas fa-phone"></i>
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Phone</h3>
+                  <p class="card-desc">Give me a call</p>
+                  <a href="tel:{{ . }}" class="contact-link">
+                    {{ . }}
+                  </a>
+                </div>
+                <div class="card-action">
+                  <a href="tel:{{ . }}" class="action-btn">
+                    <i class="fas fa-phone-alt"></i>
+                  </a>
+                </div>
+              </div>
+            {{ end }}
+
+            <!-- Address Card -->
+            {{ with .block.content.address }}
+              <div class="contact-card address-card">
+                <div class="card-icon">
+                  <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Location</h3>
+                  <p class="card-desc">Visit our office</p>
+                  <div class="address-details">
+                    {{ if .street }}<div>{{ .street }}</div>{{ end }}
+                    {{ if .city }}<div>{{ .city }}{{ if .region }}, {{ .region }}{{ end }} {{ .postcode }}</div>{{ end }}
+                    {{ if .country }}<div>{{ .country }}</div>{{ end }}
+                  </div>
+                </div>
+                <div class="card-action">
+                  <a href="https://maps.google.com/?q={{ .street }}, {{ .city }}, {{ .region }}, {{ .country }}" 
+                     target="_blank" rel="noopener" class="action-btn">
+                    <i class="fas fa-directions"></i>
+                  </a>
+                </div>
+              </div>
+            {{ end }}
+
+            <!-- Office Hours Card -->
+            {{ with .block.content.office_hours }}
+              <div class="contact-card hours-card">
+                <div class="card-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Office Hours</h3>
+                  <p class="card-desc">When I'm available</p>
+                  <div class="hours-list">
+                    {{ range . }}
+                      <div class="hour-item">{{ . }}</div>
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+            {{ end }}
+
+          </div>
+
+          <!-- Social Links & Quick Actions -->
+          {{ with .block.content.contact_links }}
+            <div class="social-contact-section">
+              <h3 class="social-title">
+                <i class="fas fa-share-alt"></i>
+                Connect with me
+              </h3>
+              <div class="social-grid">
+                {{ range . }}
+                  <a href="{{ .link }}" target="_blank" rel="noopener" class="social-contact-card"
+                     title="{{ .name }}">
+                    <div class="social-icon">
+                      <i class="{{ .icon_pack }} fa-{{ .icon }}"></i>
+                    </div>
+                    <div class="social-info">
+                      <span class="social-name">{{ .name }}</span>
+                      <span class="social-handle">{{ .link | replaceRE "^https?://(?:www\\.)?" "" | replaceRE "/.*" "" }}</span>
+                    </div>
+                    <div class="social-arrow">
+                      <i class="fas fa-arrow-right"></i>
+                    </div>
+                  </a>
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+
+          <!-- Contact Form -->
+          {{ if .block.content.form.provider }}
+            <div class="contact-form-section">
+              <h3 class="form-title">
+                <i class="fas fa-comment-dots"></i>
+                Send a Message
+              </h3>
+              
+              <form 
+                {{ if eq .block.content.form.provider "netlify" }}
+                  name="contact" 
+                  netlify 
+                  {{ if .block.content.form.netlify.captcha }}netlify-recaptcha{{ end }}
+                {{ else if eq .block.content.form.provider "formspree" }}
+                  action="https://formspree.io/f/{{ .block.content.form.formspree.id }}"
+                {{ end }}
+                method="POST"
+                class="contact-form">
+                
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="name" class="form-label">
+                      <i class="fas fa-user"></i>
+                      Name
+                    </label>
+                    <input type="text" id="name" name="name" class="form-input" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="email" class="form-label">
+                      <i class="fas fa-envelope"></i>
+                      Email
+                    </label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="subject" class="form-label">
+                    <i class="fas fa-tag"></i>
+                    Subject
+                  </label>
+                  <input type="text" id="subject" name="subject" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="message" class="form-label">
+                    <i class="fas fa-comment"></i>
+                    Message
+                  </label>
+                  <textarea id="message" name="message" rows="5" class="form-input form-textarea" required></textarea>
+                </div>
+                
+                <div class="form-submit">
+                  <button type="submit" class="submit-btn">
+                    <span class="btn-text">Send Message</span>
+                    <span class="btn-icon">
+                      <i class="fas fa-paper-plane"></i>
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          {{ end }}
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* Enhanced Contact Styles */
+.contact-enhanced {
+  padding: 4rem 0;
+  position: relative;
+  background: linear-gradient(135deg, 
+    rgba(99, 102, 241, 0.02) 0%, 
+    rgba(236, 72, 153, 0.02) 100%);
+}
+
+.contact-intro {
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--muted-color, #6b7280);
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact-container {
+  display: grid;
+  gap: 3rem;
+}
+
+/* Contact Information Cards */
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.contact-card {
+  background: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color, #e5e7eb);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.contact-card:hover::before {
+  transform: scaleX(1);
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.card-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.contact-card:hover .card-icon {
+  transform: rotate(360deg);
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--heading-color, #111827);
+  margin-bottom: 0.5rem;
+}
+
+.card-desc {
+  color: var(--muted-color, #6b7280);
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.contact-link {
+  color: var(--accent-color, #6366f1);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+  color: var(--accent-color, #4f46e5);
+  text-decoration: underline;
+}
+
+.address-details div {
+  margin-bottom: 0.25rem;
+  color: var(--text-color, #374151);
+}
+
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hour-item {
+  color: var(--text-color, #374151);
+  font-weight: 500;
+}
+
+.card-action {
+  flex-shrink: 0;
+}
+
+.action-btn {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--accent-color, #6366f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+}
+
+.action-btn:hover {
+  background: var(--accent-color, #6366f1);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Social Contact Section */
+.social-contact-section {
+  margin-bottom: 3rem;
+}
+
+.social-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--heading-color, #111827);
+  margin-bottom: 2rem;
+  text-align: center;
+  justify-content: center;
+}
+
+.social-title i {
+  color: var(--accent-color, #6366f1);
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.social-contact-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-contact-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(99, 102, 241, 0.1), 
+    transparent);
+  transition: left 0.5s ease;
+}
+
+.social-contact-card:hover::before {
+  left: 100%;
+}
+
+.social-contact-card:hover {
+  transform: translateX(4px);
+  border-color: var(--accent-color, #6366f1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.social-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.social-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.social-name {
+  font-weight: 600;
+  color: var(--heading-color, #111827);
+}
+
+.social-handle {
+  font-size: 0.9rem;
+  color: var(--muted-color, #6b7280);
+}
+
+.social-arrow {
+  color: var(--accent-color, #6366f1);
+  transition: transform 0.3s ease;
+}
+
+.social-contact-card:hover .social-arrow {
+  transform: translateX(4px);
+}
+
+/* Contact Form */
+.contact-form-section {
+  background: var(--card-bg, #ffffff);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color, #e5e7eb);
+  position: relative;
+}
+
+.contact-form-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
+  border-radius: 24px 24px 0 0;
+}
+
+.form-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--heading-color, #111827);
+  margin-bottom: 2rem;
+  text-align: center;
+  justify-content: center;
+}
+
+.form-title i {
+  color: var(--accent-color, #6366f1);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--heading-color, #111827);
+  font-size: 0.95rem;
+}
+
+.form-label i {
+  color: var(--accent-color, #6366f1);
+  font-size: 0.9rem;
+}
+
+.form-input {
+  padding: 1rem;
+  border: 2px solid var(--border-color, #e5e7eb);
+  border-radius: 12px;
+  background: var(--input-bg, #ffffff);
+  color: var(--text-color, #374151);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--accent-color, #6366f1);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-submit {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.2), 
+    transparent);
+  transition: left 0.5s ease;
+}
+
+.submit-btn:hover::before {
+  left: 100%;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+}
+
+.btn-icon {
+  transition: transform 0.3s ease;
+}
+
+.submit-btn:hover .btn-icon {
+  transform: translateX(4px);
+}
+
+/* Dark Mode */
+[data-theme="dark"] .contact-enhanced,
+.dark .contact-enhanced {
+  --card-bg: #1f2937;
+  --border-color: #374151;
+  --text-color: #f9fafb;
+  --heading-color: #ffffff;
+  --muted-color: #9ca3af;
+  --input-bg: #374151;
+  --accent-color: #818cf8;
+}
+
+[data-theme="dark"] .contact-enhanced,
+.dark .contact-enhanced {
+  background: linear-gradient(135deg, 
+    rgba(129, 140, 248, 0.05) 0%, 
+    rgba(236, 72, 153, 0.05) 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contact-enhanced {
+    padding: 3rem 0;
+  }
+  
+  .contact-info {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .social-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .contact-form-section {
+    padding: 2rem;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-card {
+    padding: 1rem;
+  }
+  
+  .contact-form-section {
+    padding: 1.5rem;
+  }
+  
+  .submit-btn {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* Animations */
+@media (prefers-reduced-motion: no-preference) {
+  .contact-card {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .contact-card:nth-child(2) { animation-delay: 0.1s; }
+  .contact-card:nth-child(3) { animation-delay: 0.2s; }
+  .contact-card:nth-child(4) { animation-delay: 0.3s; }
+  
+  .social-contact-card {
+    animation: fadeInLeft 0.6s ease-out;
+  }
+  
+  .social-contact-card:nth-child(2) { animation-delay: 0.1s; }
+  .social-contact-card:nth-child(3) { animation-delay: 0.2s; }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+</style>

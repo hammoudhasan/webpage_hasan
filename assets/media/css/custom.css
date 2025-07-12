@@ -5,6 +5,31 @@
     margin: 1rem 0;
 }
 
+/* Fix for Wowchemy biography layout */
+.wg-about .avatar {
+    width: 200px;
+    height: 200px;
+}
+
+.wg-about .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.wg-about .row {
+    align-items: center;
+}
+
+.wg-about .portrait-title {
+    margin-bottom: 2rem;
+}
+
+.wg-about .biography {
+    text-align: justify;
+    line-height: 1.6;
+}
+
 .profile-photo {
     width: 150px;
     height: 150px;
@@ -14,6 +39,9 @@
     border: 3px solid transparent;
     background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899) padding-box,
                 linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899) border-box;
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: cover;
 }
 
 .profile-photo:hover {
@@ -75,6 +103,20 @@
     position: relative;
 }
 
+/* Fix for Wowchemy publication cards */
+.wg-collection .card {
+    margin-bottom: 1.5rem;
+}
+
+.wg-collection .card-body {
+    padding: 1.5rem;
+}
+
+.wg-collection .article-metadata {
+    margin-bottom: 1rem;
+    color: var(--muted-color, #6b7280);
+}
+
 .card::before {
     content: '';
     position: absolute;
@@ -113,6 +155,7 @@
 }
 
 /* Contact Section Enhancement */
+.wg-contact .contact-links .btn,
 .contact-links .btn {
     border-radius: 25px;
     padding: 0.75rem 1.5rem;
@@ -121,6 +164,23 @@
     border: 2px solid transparent;
     position: relative;
     overflow: hidden;
+}
+
+/* Ensure contact widget displays properly */
+.wg-contact {
+    padding: 3rem 0;
+}
+
+.wg-contact .container {
+    max-width: 1200px;
+}
+
+.wg-contact .contact-widget {
+    background: var(--card-bg, #ffffff);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-color, #e5e7eb);
 }
 
 .contact-links .btn::before {

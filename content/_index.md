@@ -36,6 +36,30 @@ sections:
   #       gradient_start: '#004ba0'
   #       text_color_flight: true
 
+  - block: hero
+    id: hero
+    content:
+      title: Hasan Hammoud
+      subtitle: LLMs · Multimodal AI · Alignment
+      text: |-
+        I build trustworthy models that see, read, and align with human intent—across safety, multimodality, and real-world deployment.
+      cta:
+        label: Work together
+        url: '#contact'
+        icon: rocket
+      cta_alt:
+        label: View CV
+        url: uploads/resume.pdf
+        icon: file-alt
+      cta_note:
+        label: "Latest: Amazon Research internship 2025 · Safety x Vision-Language"
+    design:
+      background:
+        color: ''
+      orientation: right
+      image:
+        filename: avatar-hero.jpeg
+
   - block: about.biography
     id: about
     content:
@@ -234,6 +258,31 @@ sections:
     design:
       columns: '2'
       view: citation
+
+  - block: markdown
+    id: live
+    content:
+      title: Live Footprints
+      subtitle: Glowing pulse of the site
+      text: |-
+        <div id="live-telemetry">
+          <h3>Real-time vibe check</h3>
+          <p style="color:#8e95b2;margin-bottom:0.9rem;">See who's peeking right now and where they're tuning in from.</p>
+          <div class="telemetry-grid">
+            <div class="telemetry-card">
+              <strong id="viewer-count">•••</strong>
+              <span>people browsing</span>
+            </div>
+            <div class="telemetry-card">
+              <strong id="viewer-location">•••</strong>
+              <span>your location</span>
+            </div>
+            <div class="telemetry-card">
+              <strong id="viewer-trend">•••</strong>
+              <span>hotspots</span>
+            </div>
+          </div>
+        </div>
   # - block: collection
   #   id: talks
   #   content:

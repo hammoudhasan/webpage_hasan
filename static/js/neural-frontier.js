@@ -12,7 +12,7 @@
   function initScrollProgress() {
     const bar = document.createElement('div');
     bar.className = 'scroll-progress';
-    bar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#3cf0ff,#c48bff,#ffb347);z-index:9999;width:0;transition:width 0.1s linear;box-shadow:0 0 12px rgba(60,240,255,0.5);';
+    bar.style.cssText = 'position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#00f0ff,#bf00ff,#00f0ff);z-index:9999;width:0;transition:width 0.1s linear;box-shadow:0 0 10px rgba(0,240,255,0.5);';
     document.body.appendChild(bar);
 
     window.addEventListener('scroll', () => {
@@ -51,7 +51,7 @@
           vx: (Math.random() - 0.5) * 0.4,
           vy: (Math.random() - 0.5) * 0.4,
           size: Math.random() * 2 + 1,
-          color: ['#3cf0ff', '#c48bff', '#ffb347'][Math.floor(Math.random() * 3)]
+          color: ['#00f0ff', '#bf00ff', '#00f0ff'][Math.floor(Math.random() * 3)]
         });
       }
     }
@@ -127,7 +127,7 @@
       height: 500px;
       pointer-events: none;
       z-index: -1;
-      background: radial-gradient(circle, rgba(60, 240, 255, 0.12) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 70%);
       transform: translate(-50%, -50%);
       transition: opacity 0.3s;
       opacity: 0;
@@ -167,7 +167,7 @@
       let html = el.innerHTML;
       names.forEach(name => {
         const regex = new RegExp(`(${name})`, 'gi');
-        html = html.replace(regex, '<span style="color:#3cf0ff;font-weight:700;text-shadow:0 0 15px rgba(60,240,255,0.45);">$1</span>');
+        html = html.replace(regex, '<span style="color:#00f0ff;font-weight:700;text-shadow:0 0 15px rgba(0,240,255,0.5);">$1</span>');
       });
       el.innerHTML = html;
     });
@@ -280,8 +280,8 @@
     }
 
     // Console branding
-    console.log('%c AURORA FRONTIER ', 'background: linear-gradient(90deg, #3cf0ff, #c48bff); color: #05060c; padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px; text-shadow: 0 0 10px rgba(60,240,255,0.8);');
-    console.log('%c Built for Hasan Hammoud ', 'color: #3cf0ff; font-style: italic;');
+    console.log('%c NEON FRONTIER ', 'background: linear-gradient(90deg, #00f0ff, #bf00ff); color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold; font-size: 14px; text-shadow: 0 0 10px rgba(0,240,255,0.8);');
+    console.log('%c Built for Hasan Hammoud ', 'color: #00f0ff; font-style: italic;');
   }
 
   if (document.readyState === 'loading') {

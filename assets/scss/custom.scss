@@ -1,27 +1,27 @@
 /* ==========================================================================
-   NEON BLUE - Cyberpunk Edition
-   Electric Blue on Deep Black with Animated Textures
+   NEON BLUE - AI Research Edition
+   Electric Blue on Pure Black with Scanning Lines
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
 /* --------------------------------------------------------------------------
-   CSS VARIABLES - NEON BLUE THEME
+   CSS VARIABLES - NEON BLUE THEME (Dark Mode Only)
    -------------------------------------------------------------------------- */
 :root {
-  /* Deep black backgrounds */
+  /* Pure black background */
   --neon-bg-primary: #000000;
-  --neon-bg-secondary: #050510;
-  --neon-bg-tertiary: #0a0a1a;
-  --neon-bg-card: rgba(5, 5, 20, 0.9);
+  --neon-bg-secondary: #030308;
+  --neon-bg-tertiary: #060610;
+  --neon-bg-card: rgba(3, 3, 12, 0.95);
 
   /* Neon blue palette */
   --neon-blue: #00f0ff;
   --neon-blue-bright: #00ffff;
-  --neon-blue-dim: rgba(0, 240, 255, 0.15);
+  --neon-blue-dim: rgba(0, 240, 255, 0.12);
   --neon-blue-glow: rgba(0, 240, 255, 0.6);
   --neon-purple: #bf00ff;
-  --neon-pink: #ff00aa;
+  --neon-purple-glow: rgba(191, 0, 255, 0.5);
 
   /* Text */
   --neon-text-primary: #ffffff;
@@ -29,8 +29,8 @@
   --neon-text-muted: #5a6380;
 
   /* Borders */
-  --neon-border: rgba(0, 240, 255, 0.1);
-  --neon-border-hover: rgba(0, 240, 255, 0.5);
+  --neon-border: rgba(0, 240, 255, 0.08);
+  --neon-border-hover: rgba(0, 240, 255, 0.4);
 
   /* Gradients */
   --neon-gradient: linear-gradient(135deg, #00f0ff 0%, #bf00ff 100%);
@@ -39,26 +39,11 @@
   /* Typography */
   --neon-font-display: 'Orbitron', sans-serif;
   --neon-font-body: 'Rajdhani', sans-serif;
+  --neon-font-mono: 'Fira Code', monospace;
 
   /* Animation */
   --neon-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --neon-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-/* Light mode - Electric blue on white */
-[data-theme="light"] {
-  --neon-bg-primary: #f0f4f8;
-  --neon-bg-secondary: #ffffff;
-  --neon-bg-tertiary: #e8eef4;
-  --neon-bg-card: rgba(255, 255, 255, 0.95);
-  --neon-blue: #0077cc;
-  --neon-blue-bright: #0099ff;
-  --neon-blue-dim: rgba(0, 119, 204, 0.1);
-  --neon-blue-glow: rgba(0, 119, 204, 0.3);
-  --neon-text-primary: #0a0a1a;
-  --neon-text-secondary: #4a5568;
-  --neon-text-muted: #718096;
-  --neon-border: rgba(0, 119, 204, 0.15);
 }
 
 /* --------------------------------------------------------------------------
@@ -74,7 +59,7 @@ html {
 
 body {
   font-family: var(--neon-font-body);
-  background: var(--neon-bg-primary);
+  background: #000000;
   color: var(--neon-text-primary);
   line-height: 1.7;
   overflow-x: hidden;
@@ -88,22 +73,125 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   BACKGROUND - Pure Black
+   ANIMATED SCANNING LINES BACKGROUND
    -------------------------------------------------------------------------- */
 
-body {
-  background: #000000 !important;
+/* Scanning line 1 - slow */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0, 240, 255, 0.3) 20%,
+    rgba(0, 240, 255, 0.8) 50%,
+    rgba(0, 240, 255, 0.3) 80%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 20px rgba(0, 240, 255, 0.5),
+    0 0 40px rgba(0, 240, 255, 0.3),
+    0 0 60px rgba(0, 240, 255, 0.1);
+  z-index: 1;
+  pointer-events: none;
+  animation: scanLine1 8s linear infinite;
 }
 
-body::before,
-body::after,
+/* Scanning line 2 - faster, purple accent */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(191, 0, 255, 0.2) 30%,
+    rgba(191, 0, 255, 0.5) 50%,
+    rgba(191, 0, 255, 0.2) 70%,
+    transparent 100%
+  );
+  box-shadow:
+    0 0 15px rgba(191, 0, 255, 0.4),
+    0 0 30px rgba(191, 0, 255, 0.2);
+  z-index: 1;
+  pointer-events: none;
+  animation: scanLine2 5s linear infinite;
+  animation-delay: 2s;
+}
+
+@keyframes scanLine1 {
+  0% {
+    top: -2px;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    top: 100vh;
+    opacity: 0;
+  }
+}
+
+@keyframes scanLine2 {
+  0% {
+    top: -2px;
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.7;
+  }
+  95% {
+    opacity: 0.7;
+  }
+  100% {
+    top: 100vh;
+    opacity: 0;
+  }
+}
+
+/* Subtle grid overlay */
 .page-wrapper::before {
-  display: none !important;
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+  background-size: 100px 100px;
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* Light mode - clean white */
-[data-theme="light"] body {
-  background: #ffffff !important;
+/* Corner accents */
+.page-wrapper::after {
+  content: '';
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 100px;
+  height: 100px;
+  border-left: 1px solid rgba(0, 240, 255, 0.3);
+  border-top: 1px solid rgba(0, 240, 255, 0.3);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -145,10 +233,6 @@ a:hover {
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--neon-border);
   transition: all 0.4s var(--neon-ease);
-}
-
-[data-theme="light"] .navbar {
-  background: rgba(255, 255, 255, 0.95) !important;
 }
 
 .navbar-brand {

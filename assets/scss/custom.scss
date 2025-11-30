@@ -5,6 +5,43 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
+/* ==========================================================================
+   FORCE BLACK BACKGROUND - OVERRIDE EVERYTHING
+   ========================================================================== */
+html,
+body,
+body.dark,
+body.light,
+.page-wrapper,
+.page-body,
+.page-body-wrapper,
+.home-section,
+.home-section-bg,
+.universal-wrapper,
+.article-container,
+#content,
+main,
+.docs-article-container,
+.book-page {
+  background: #000000 !important;
+  background-color: #000000 !important;
+}
+
+/* Override Wowchemy's CSS variables */
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"],
+html,
+html[data-theme="light"],
+html[data-theme="dark"] {
+  --wc-bg-color: #000000 !important;
+  --wc-body-bg-color: #000000 !important;
+  --gc-bg-color: #000000 !important;
+  --color-bg-primary: #000000 !important;
+  --color-bg-secondary: #000000 !important;
+  color-scheme: dark !important;
+}
+
 /* --------------------------------------------------------------------------
    CSS VARIABLES - NEON BLUE THEME (Dark Mode Only)
    -------------------------------------------------------------------------- */
@@ -55,21 +92,16 @@
 
 html {
   scroll-behavior: smooth;
+  background: #000000 !important;
 }
 
 body {
   font-family: var(--neon-font-body);
-  background: #000000;
+  background: #000000 !important;
   color: var(--neon-text-primary);
   line-height: 1.7;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-}
-
-.page-wrapper,
-.home-section,
-.home-section-bg {
-  background: transparent !important;
 }
 
 /* --------------------------------------------------------------------------

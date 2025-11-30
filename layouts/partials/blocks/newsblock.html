@@ -1,20 +1,19 @@
-{{/* News Block Component */}}
+{{/* Neural Frontier - News Block Component */}}
 {{ $st := .page_type | default "block" }}
-<section id="{{ .block.id | default .id | default (replace (replace .block.title " " "-") ":" "") | lower }}" class="home-section wg-{{ .block.type | default "newsblock" }} dark-root">
-  <div class="home-section-bg {{ if .block.design.background.color }}bg-{{ .block.design.background.color }}{{ end }}"></div>
+<section id="{{ .block.id | default .id | default (replace (replace .block.title " " "-") ":" "") | lower }}" class="home-section wg-{{ .block.type | default "newsblock" }}">
   <div class="container">
 
     <div class="row">
       <div class="col-12 section-heading">
         <h1>{{ .block.content.title | default "Recent News" | markdownify | emojify }}</h1>
-        {{ with .block.content.subtitle }}<p>{{ . | markdownify | emojify }}</p>{{ end }}
+        {{ with .block.content.subtitle }}<p class="section-subtitle">{{ . | markdownify | emojify }}</p>{{ end }}
       </div>
     </div>
 
     <div class="row">
       <div class="col-12">
         <div class="news-container">
-          
+
           <!-- Easter Egg Section -->
           <div class="easter-egg-section">
             <div class="easter-egg" onclick="triggerEasterEgg()">
@@ -26,34 +25,35 @@
           <!-- News Items -->
           {{ $news_entries := where site.RegularPages "Section" "news" }}
           {{ $news_entries = $news_entries | first 10 }}
-          
+
           <div class="news-scroll-container">
-            {{ range $news_entries }}
-            <article class="news-item">
-              <div class="news-item-content">
-                <div class="news-item-header">
-                  <span class="news-icon">📰</span>
+            <div class="news-timeline">
+              {{ range $index, $entry := $news_entries }}
+              <article class="news-item" style="animation-delay: {{ mul $index 0.1 }}s">
+                <div class="news-item-marker">
+                  <span class="marker-dot"></span>
+                  <span class="marker-line"></span>
+                </div>
+                <div class="news-item-content">
                   <time class="news-date" datetime="{{ .Date.Format "2006-01-02" }}">
-                    {{ .Date.Format "January 2, 2006" }}
+                    {{ .Date.Format "Jan 2006" }}
                   </time>
+
+                  <div class="news-item-body">
+                    {{ if .Params.linkable }}
+                      <h3 class="news-title">
+                        <a href="{{ .RelPermalink }}" class="news-link">
+                          {{ .Title | markdownify }}
+                        </a>
+                      </h3>
+                    {{ else }}
+                      <h3 class="news-title">{{ .Title | markdownify }}</h3>
+                    {{ end }}
+                  </div>
                 </div>
-                
-                <div class="news-item-body">
-                  {{ if .Params.linkable }}
-                    <h3 class="news-title">
-                      <a href="{{ .RelPermalink }}" class="news-link">
-                        {{ .Title | markdownify }}
-                      </a>
-                    </h3>
-                  {{ else }}
-                    <h3 class="news-title">{{ .Title | markdownify }}</h3>
-                  {{ end }}
-                </div>
-              </div>
-              
-              <div class="news-item-divider"></div>
-            </article>
-            {{ end }}
+              </article>
+              {{ end }}
+            </div>
           </div>
 
           {{ if gt (len $news_entries) 10 }}
@@ -70,36 +70,39 @@
 </section>
 
 <style>
-/* News Block Styles - Modern, Responsive, Dark Mode Compatible */
+/* Neural Frontier - News Block Styles */
 .wg-newsblock {
-  padding: 3rem 0;
+  padding: var(--nf-space-xl, 6rem) 0;
+}
+
+.wg-newsblock .section-subtitle {
+  color: var(--nf-text-muted, #6b7280);
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
 }
 
 .news-container {
-  position: relative;
-  max-width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-/* Easter Egg Styling */
+/* Easter Egg */
 .easter-egg-section {
-  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
 }
 
 .easter-egg {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, 
-    rgba(99, 102, 241, 0.1), 
-    rgba(219, 39, 119, 0.1));
-  border: 2px solid transparent;
+  gap: 0.75rem;
+  padding: 0.875rem 1.75rem;
+  background: var(--nf-bg-tertiary, #1a1a24);
+  border: 1px solid var(--nf-border, rgba(255, 255, 255, 0.08));
   border-radius: 50px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(8px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
 }
@@ -111,11 +114,8 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.2), 
-    transparent);
-  transition: left 0.5s ease;
+  background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+  transition: left 0.6s ease;
 }
 
 .easter-egg:hover::before {
@@ -123,40 +123,40 @@
 }
 
 .easter-egg:hover {
-  transform: translateY(-2px) scale(1.05);
-  background: linear-gradient(135deg, 
-    rgba(99, 102, 241, 0.2), 
-    rgba(219, 39, 119, 0.2));
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background: var(--nf-cyan-dim, rgba(0, 212, 255, 0.15));
+  border-color: var(--nf-cyan, #00d4ff);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
 }
 
 .egg-icon {
   font-size: 1.5rem;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .easter-egg:hover .egg-icon {
-  transform: rotate(20deg);
+  transform: rotate(20deg) scale(1.1);
 }
 
 .egg-text {
+  font-family: var(--nf-font-display, 'Outfit', sans-serif);
   font-weight: 500;
-  color: var(--text-color, #374151);
-  transition: color 0.3s ease;
+  color: var(--nf-text-secondary, #9ca3af);
+  font-size: 0.95rem;
 }
 
 /* News Scroll Container */
 .news-scroll-container {
-  max-height: 400px;
+  max-height: 450px;
   overflow-y: auto;
-  background: var(--card-bg, #ffffff);
-  border: 1px solid var(--border-color, #e5e7eb);
-  border-radius: 20px;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  background: var(--nf-bg-card, rgba(26, 26, 36, 0.8));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--nf-border, rgba(255, 255, 255, 0.08));
+  border-radius: 24px;
+  padding: 2rem;
   position: relative;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
 }
 
 .news-scroll-container::before {
@@ -165,93 +165,119 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899);
-  border-radius: 20px 20px 0 0;
+  height: 3px;
+  background: linear-gradient(135deg, var(--nf-cyan, #00d4ff) 0%, var(--nf-purple, #a855f7) 50%, var(--nf-coral, #ff6b6b) 100%);
+  border-radius: 24px 24px 0 0;
 }
 
 /* Custom Scrollbar */
 .news-scroll-container::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .news-scroll-container::-webkit-scrollbar-track {
-  background: var(--muted-bg, #f3f4f6);
-  border-radius: 10px;
+  background: var(--nf-bg-tertiary, #1a1a24);
+  border-radius: 3px;
 }
 
 .news-scroll-container::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #6366f1, #ec4899);
-  border-radius: 10px;
-  transition: background 0.3s ease;
+  background: linear-gradient(180deg, var(--nf-cyan, #00d4ff), var(--nf-purple, #a855f7));
+  border-radius: 3px;
 }
 
-.news-scroll-container::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #4f46e5, #db2777);
+/* News Timeline */
+.news-timeline {
+  position: relative;
 }
 
 /* News Item */
 .news-item {
+  display: flex;
+  gap: 1.5rem;
   padding: 1.25rem 0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideInNews 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.news-item:last-child .news-item-divider {
+@keyframes slideInNews {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.news-item:last-child .marker-line {
   display: none;
 }
 
-.news-item:hover {
-  background: var(--hover-bg, rgba(99, 102, 241, 0.02));
-  border-radius: 12px;
-  padding: 1.25rem 1rem;
-  margin: 0 -1rem;
-}
-
-.news-item-content {
+/* Timeline Marker */
+.news-item-marker {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-}
-
-/* News Item Header */
-.news-item-header {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+  flex-shrink: 0;
+  width: 20px;
 }
 
-.news-icon {
-  font-size: 1.25rem;
-  opacity: 0.8;
+.marker-dot {
+  width: 12px;
+  height: 12px;
+  background: var(--nf-cyan, #00d4ff);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--nf-cyan-glow, rgba(0, 212, 255, 0.4));
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.news-item:hover .marker-dot {
+  transform: scale(1.3);
+  box-shadow: 0 0 30px var(--nf-cyan-glow, rgba(0, 212, 255, 0.6));
+}
+
+.marker-line {
+  flex: 1;
+  width: 2px;
+  background: linear-gradient(180deg, var(--nf-cyan, #00d4ff) 0%, var(--nf-border, rgba(255, 255, 255, 0.08)) 100%);
+  margin-top: 0.5rem;
+  min-height: 30px;
+}
+
+/* News Content */
+.news-item-content {
+  flex: 1;
+  padding-bottom: 0.5rem;
 }
 
 .news-date {
-  font-size: 0.875rem;
-  color: var(--muted-color, #6b7280);
-  font-weight: 500;
-  padding: 0.25rem 0.75rem;
-  background: var(--muted-bg, #f3f4f6);
+  display: inline-block;
+  font-family: var(--nf-font-display, 'Outfit', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--nf-cyan, #00d4ff);
+  background: var(--nf-cyan-dim, rgba(0, 212, 255, 0.15));
+  padding: 0.35rem 0.85rem;
   border-radius: 20px;
+  margin-bottom: 0.75rem;
 }
 
-/* News Item Body */
-.news-item-body .news-title {
-  margin: 0;
+.news-title {
+  font-family: var(--nf-font-display, 'Outfit', sans-serif);
   font-size: 1.1rem;
   font-weight: 600;
-  line-height: 1.4;
-  color: var(--heading-color, #111827);
+  color: var(--nf-text-primary, #f0f0f5);
+  margin: 0;
+  line-height: 1.5;
 }
 
 .news-link {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
   position: relative;
-  transition: all 0.3s ease;
-  display: inline-block;
 }
 
 .news-link::after {
@@ -261,307 +287,189 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, #6366f1, #ec4899);
+  background: linear-gradient(90deg, var(--nf-cyan, #00d4ff), var(--nf-purple, #a855f7));
   transition: width 0.3s ease;
 }
 
 .news-link:hover {
-  color: var(--accent-color, #6366f1);
-  transform: translateX(4px);
+  color: var(--nf-cyan, #00d4ff);
 }
 
 .news-link:hover::after {
   width: 100%;
 }
 
-/* News Item Divider */
-.news-item-divider {
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    var(--border-color, #e5e7eb) 20%, 
-    var(--border-color, #e5e7eb) 80%, 
-    transparent 100%);
-  margin-top: 1.25rem;
-  opacity: 0.6;
-}
-
 /* Footer */
 .news-footer {
   text-align: center;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color, #e5e7eb);
+  margin-top: 2rem;
 }
 
-/* Dark Mode Support */
-[data-theme="dark"] .news-scroll-container,
-.dark .news-scroll-container {
-  --card-bg: #1f2937;
-  --border-color: #374151;
-  --text-color: #f9fafb;
-  --heading-color: #ffffff;
-  --muted-color: #9ca3af;
-  --muted-bg: #374151;
-  --accent-color: #818cf8;
-  --hover-bg: rgba(129, 140, 248, 0.05);
+/* Light Mode */
+[data-theme="light"] .news-scroll-container {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
 }
 
-[data-theme="dark"] .news-item-divider,
-.dark .news-item-divider {
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    #4b5563 20%, 
-    #4b5563 80%, 
-    transparent 100%);
+[data-theme="light"] .easter-egg {
+  background: #f3f4f6;
 }
 
-[data-theme="dark"] .egg-text,
-.dark .egg-text {
-  color: #f9fafb;
+[data-theme="light"] .news-title {
+  color: #111827;
 }
 
-[data-theme="dark"] .easter-egg,
-.dark .easter-egg {
-  background: linear-gradient(135deg, 
-    rgba(129, 140, 248, 0.15), 
-    rgba(236, 72, 153, 0.15));
+[data-theme="light"] .egg-text {
+  color: #4b5563;
 }
 
-[data-theme="dark"] .easter-egg:hover,
-.dark .easter-egg:hover {
-  background: linear-gradient(135deg, 
-    rgba(129, 140, 248, 0.25), 
-    rgba(236, 72, 153, 0.25));
-  border-color: rgba(129, 140, 248, 0.4);
-}
-
-[data-theme="dark"] .news-footer,
-.dark .news-footer {
-  border-color: #374151;
-}
-
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 768px) {
   .wg-newsblock {
-    padding: 2rem 0;
+    padding: var(--nf-space-lg, 4rem) 0;
   }
-  
+
   .news-scroll-container {
-    max-height: 350px;
-    padding: 0.75rem;
+    padding: 1.5rem;
+    max-height: 380px;
   }
-  
+
   .news-item {
-    padding: 1rem 0;
+    gap: 1rem;
   }
-  
-  .news-item:hover {
-    padding: 1rem 0.75rem;
-    margin: 0 -0.75rem;
+
+  .news-title {
+    font-size: 1rem;
   }
-  
+
   .easter-egg {
-    padding: 0.5rem 1rem;
-  }
-  
-  .egg-icon {
-    font-size: 1.25rem;
+    padding: 0.625rem 1.25rem;
   }
 }
 
 @media (max-width: 480px) {
   .news-scroll-container {
-    max-height: 300px;
-    padding: 0.5rem;
+    padding: 1rem;
+    max-height: 320px;
   }
-  
-  .news-item-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .news-item-body .news-title {
-    font-size: 1rem;
-  }
-  
-  .news-item {
-    padding: 0.75rem 0;
-  }
-  
-  .news-item:hover {
-    padding: 0.75rem 0.5rem;
-    margin: 0 -0.5rem;
-  }
-}
 
-/* Smooth scrolling and animations */
-@media (prefers-reduced-motion: no-preference) {
-  .news-item {
-    animation: fadeInUp 0.6s ease-out;
+  .news-item-marker {
+    width: 16px;
   }
-  
-  .news-item:nth-child(2) { animation-delay: 0.1s; }
-  .news-item:nth-child(3) { animation-delay: 0.2s; }
-  .news-item:nth-child(4) { animation-delay: 0.3s; }
-  .news-item:nth-child(5) { animation-delay: 0.4s; }
-  .news-item:nth-child(6) { animation-delay: 0.5s; }
-}
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  .marker-dot {
+    width: 10px;
+    height: 10px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Scroll indicator */
-.news-scroll-container::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30px;
-  height: 4px;
-  background: linear-gradient(90deg, #6366f1, #ec4899);
-  border-radius: 2px;
-  opacity: 0.6;
 }
 </style>
 
 <script>
 function triggerEasterEgg() {
-  // Create a more engaging easter egg
   const messages = [
-    "🎩✨ Abracadabra! You found the magic button!",
-    "🧙🏻 The wizard approves of your curiosity!",
-    "⭐ You've unlocked... absolutely nothing! But thanks for clicking!",
-    "🎪 Welcome to the digital circus of curiosity!",
-    "🔮 The crystal ball says... you should probably get back to reading!"
+    { emoji: '🎩', text: "Abracadabra! You found the magic button!" },
+    { emoji: '🧙🏻', text: "The wizard approves of your curiosity!" },
+    { emoji: '🔮', text: "The crystal ball sees... great things in your future!" },
+    { emoji: '✨', text: "Congratulations! You unlocked... absolutely nothing!" },
+    { emoji: '🦙', text: "A wild LLaMA appears! It seems confused..." }
   ];
-  
-  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-  
-  // Create a custom modal instead of alert
+
+  const { emoji, text } = messages[Math.floor(Math.random() * messages.length)];
+
+  // Create modal
   const modal = document.createElement('div');
-  modal.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999;
-    backdrop-filter: blur(5px);
+  modal.className = 'nf-modal-overlay';
+  modal.innerHTML = `
+    <div class="nf-modal-content">
+      <div class="nf-modal-emoji">${emoji}</div>
+      <p class="nf-modal-text">${text}</p>
+      <button class="nf-modal-close">Got it!</button>
+    </div>
   `;
-  
-  const content = document.createElement('div');
-  content.style.cssText = `
-    background: white;
-    padding: 2rem;
-    border-radius: 20px;
-    text-align: center;
-    max-width: 400px;
-    margin: 1rem;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    animation: modalBounce 0.5s ease-out;
+
+  // Add styles
+  const style = document.createElement('style');
+  style.textContent = `
+    .nf-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .nf-modal-content {
+      background: var(--nf-bg-card, rgba(26, 26, 36, 0.95));
+      border: 1px solid var(--nf-border, rgba(255, 255, 255, 0.1));
+      border-radius: 24px;
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 400px;
+      margin: 1rem;
+      animation: bounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.3) translateY(-50px); }
+      50% { transform: scale(1.05); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .nf-modal-emoji {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: float 2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .nf-modal-text {
+      font-family: var(--nf-font-display, 'Outfit', sans-serif);
+      font-size: 1.25rem;
+      color: var(--nf-text-primary, #f0f0f5);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .nf-modal-close {
+      background: linear-gradient(135deg, #00d4ff 0%, #a855f7 50%, #ff6b6b 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 0.875rem 2rem;
+      font-family: var(--nf-font-display, 'Outfit', sans-serif);
+      font-weight: 600;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .nf-modal-close:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+    }
   `;
-  
-  // Add animation keyframes
-  if (!document.querySelector('#modal-animations')) {
-    const style = document.createElement('style');
-    style.id = 'modal-animations';
-    style.textContent = `
-      @keyframes modalBounce {
-        0% { opacity: 0; transform: scale(0.3) translateY(-50px); }
-        50% { transform: scale(1.05); }
-        100% { opacity: 1; transform: scale(1) translateY(0); }
-      }
-    `;
+
+  if (!document.querySelector('#nf-modal-styles')) {
+    style.id = 'nf-modal-styles';
     document.head.appendChild(style);
   }
-  
-  content.innerHTML = `
-    <div style="font-size: 3rem; margin-bottom: 1rem;">🎉</div>
-    <p style="font-size: 1.2rem; margin-bottom: 1.5rem; color: #333;">${randomMessage}</p>
-    <button onclick="this.closest('.modal-overlay').remove()" 
-            style="background: linear-gradient(135deg, #6366f1, #ec4899); 
-                   color: white; 
-                   border: none; 
-                   padding: 0.75rem 2rem; 
-                   border-radius: 25px; 
-                   font-weight: 600; 
-                   cursor: pointer;
-                   transition: transform 0.2s ease;">
-      ✨ Amazing! ✨
-    </button>
-  `;
-  
-  modal.className = 'modal-overlay';
-  modal.appendChild(content);
+
   document.body.appendChild(modal);
-  
-  // Add button hover effect
-  const button = content.querySelector('button');
-  button.addEventListener('mouseenter', () => {
-    button.style.transform = 'scale(1.05)';
-  });
-  button.addEventListener('mouseleave', () => {
-    button.style.transform = 'scale(1)';
-  });
-  
-  // Close on background click
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
+
+  // Close handlers
+  modal.querySelector('.nf-modal-close').onclick = () => modal.remove();
+  modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+  document.addEventListener('keydown', function escHandler(e) {
+    if (e.key === 'Escape') {
       modal.remove();
+      document.removeEventListener('keydown', escHandler);
     }
   });
 }
-
-// Add some sparkle effects
-document.addEventListener('DOMContentLoaded', function() {
-  const easterEgg = document.querySelector('.easter-egg');
-  if (easterEgg) {
-    easterEgg.addEventListener('mouseenter', function() {
-      // Add subtle sparkle effect
-      for (let i = 0; i < 3; i++) {
-        setTimeout(() => {
-          const sparkle = document.createElement('div');
-          sparkle.textContent = '✨';
-          sparkle.style.cssText = `
-            position: absolute;
-            font-size: 1rem;
-            pointer-events: none;
-            animation: sparkleFloat 1s ease-out forwards;
-            left: ${Math.random() * 100}%;
-            top: ${Math.random() * 100}%;
-          `;
-          
-          if (!document.querySelector('#sparkle-animations')) {
-            const style = document.createElement('style');
-            style.id = 'sparkle-animations';
-            style.textContent = `
-              @keyframes sparkleFloat {
-                0% { opacity: 1; transform: translateY(0) scale(0.5); }
-                100% { opacity: 0; transform: translateY(-30px) scale(1); }
-              }
-            `;
-            document.head.appendChild(style);
-          }
-          
-          this.appendChild(sparkle);
-          setTimeout(() => sparkle.remove(), 1000);
-        }, i * 200);
-      }
-    });
-  }
-});
 </script>

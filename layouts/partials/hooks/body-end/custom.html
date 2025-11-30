@@ -3,8 +3,8 @@
 
 <!-- Background Texture Layer -->
 <div id="bg-texture">
-  <div id="bg-noise"></div>
-  <div id="bg-glow"></div>
+  <div id="bg-gradient"></div>
+  <canvas id="bg-canvas"></canvas>
 </div>
 <style>
 #bg-texture {
@@ -18,30 +18,75 @@
   overflow: hidden;
 }
 
-/* Noise grain texture - more visible */
-#bg-noise {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.08;
-}
-
-/* Neon glow spots - more visible */
-#bg-glow {
+/* Smooth neon glow gradients */
+#bg-gradient {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle 600px at 0% 0%, rgba(0, 240, 255, 0.15) 0%, transparent 60%),
-    radial-gradient(circle 500px at 100% 100%, rgba(191, 0, 255, 0.12) 0%, transparent 60%),
-    radial-gradient(circle 400px at 80% 20%, rgba(0, 240, 255, 0.08) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 70% at 0% 0%, rgba(0, 240, 255, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 60% at 100% 100%, rgba(191, 0, 255, 0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 70% 20%, rgba(0, 240, 255, 0.06) 0%, transparent 60%);
 }
 
+/* Canvas for smooth animated grain */
+#bg-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.04;
+}
+</style>
+<script>
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    generateNoise();
+  }
+
+  function generateNoise() {
+    const w = canvas.width;
+    const h = canvas.height;
+    const imageData = ctx.createImageData(w, h);
+    const data = imageData.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const value = Math.random() * 255;
+      data[i] = value;     // R
+      data[i+1] = value;   // G
+      data[i+2] = value;   // B
+      data[i+3] = 255;     // A
+    }
+
+    ctx.putImageData(imageData, 0, 0);
+  }
+
+  // Subtle animation - regenerate noise occasionally for film grain effect
+  let frame = 0;
+  function animate() {
+    frame++;
+    if (frame % 6 === 0) { // Update every 6 frames (~10fps)
+      generateNoise();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  animate();
+})();
+</script>
+
+<style>
 /* Additional CSS for scroll navbar */
 .navbar.scroll-down {
   transform: translateY(-100%);
